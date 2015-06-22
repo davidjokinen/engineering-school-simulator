@@ -18,6 +18,7 @@ var Student = Class.extend({
 		this.hwDue = 0;
 		this.sleepPen = 1.0;
 		this.stressEf = 0.8;
+		this.parentDistance = 0;
 		//this.maxHandle = 1.0;
 
 		this.favFood = "Nachos";

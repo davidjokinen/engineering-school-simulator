@@ -17,6 +17,7 @@ var PopUpEdit = Scene.extend({
 	},
 	start: function (){
 		this.render();
+
 	},
 	render: function (){
 		var w = 40;
@@ -36,5 +37,6 @@ var PopUpEdit = Scene.extend({
 		this.ctx.fillText(text,(this.ctx.width-w)/2+2,15);
 		var text = this.error;
 		this.ctx.fillText(text,(this.ctx.width-w)/2+2,17);
+		this.ctx.drawScreen();
 	}
 })

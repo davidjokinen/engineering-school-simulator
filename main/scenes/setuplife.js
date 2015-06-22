@@ -2,7 +2,7 @@
  *   SetUpLife.js
  */
 var SetUpLife = Scene.extend({
-	init: function (student){
+	init: function (student){ 
 		this.student = student;
 		this.list = new Array();
 		this.list.push(new TextWindow(this,"Who you are?","Lets find out!",function(scene, ctx){
@@ -33,14 +33,110 @@ var SetUpLife = Scene.extend({
 				var parentDistance = 10 + parseInt(40*Math.random());
 				parentDistance += (Math.random() > .7) ?  (80 + 300*Math.random()): 0;
 				parentDistance = parseInt(parentDistance);
+				student.parentDistance = parentDistance;
 				text = "Your parents are live "+parentDistance+" miles from campus";
 				this.ctx.fillText(text,12,8);
 
 			},function(scene, input){if(input=="r")return false;return true;}));
 		this.list.push(new TextWindow(this,"Welcome to "+this.student.schoolName+" school!","Words go here",function(scene, ctx){},function(scene, input){return true;}));
-		this.list.push(new TextWindow(this,"Tablet requirement!","All student need to have a tablet. ",function(scene, ctx){},function(scene, input){return true;}));
 		this.list.push(new TextWindow(this,"Financial Aid!","Let see if you are getting any support!?",function(scene, ctx){},function(scene, input){return true;}));
-		this.list.push(new TextWindow(this,"Housing!","Where are you going to start living?",function(scene, ctx){},function(scene, input){return true;}));
+		this.list.push(new ChoiceWindow(this,"Tablet requirement!","All student need to have a tablet. ",[
+														{
+															requirements:function(){
+																return true;
+															},
+															cost:1100,
+															warranty:1,
+															text:function(){return "Recommended tablet ($"+this.cost+", "+this.warranty+" warranty)";}
+														},
+														{
+															requirements:function(){
+																return true;
+															},
+															cost:1500,
+															warranty:3,
+															text:function(){return "Recommended tablet ($"+this.cost+", "+this.warranty+" warranty)";}
+														},
+														{
+															requirements:function(student){
+																if(student.intelligence.amount > 9)return true;
+																return false;
+															},
+															cost:900,
+															warranty:2,
+															text:function(){return "Laptop with Wacom pen ($"+this.cost+", "+this.warranty+" warranty)";}
+														},
+														{
+															requirements:function(student){
+																if(student.charisma.amount > 7)return true;
+																return false;
+															},
+															cost:800,
+															warranty:2,
+															text:function(){return "Used table of failed out student  ($"+this.cost+", "+this.warranty+" warranty)";}
+														},
+														{
+															requirements:function(student){
+																if(student.luck.amount > 8)return true;
+																return false;
+															},
+															cost:0,
+															warranty:2,
+															text:function(){return "Won in contest and meets the requirements ($"+this.cost+", "+this.warranty+" warranty)";}
+														},
+														{
+															requirements:function(student){
+																if(student.intelligence.amount < 4)return true;
+																return false;
+															},
+															cost:750,
+															warranty:2,
+															text:function(){return "iPad ($"+this.cost+", "+this.warranty+" warranty)";}
+														}],function(student, choice){
+															this.scene.student.tablet = choice;
+														}));
+		this.list.push(new ChoiceWindow(this,"Housing!","Where are you going to start living?",[
+														{
+															requirements:function(){
+																return true;
+															},
+															cost:2400,
+															text:function(){return "Double dorm (campus housing $"+this.cost+")";}
+														},
+														{
+															requirements:function(){
+																return true;
+															},
+															cost:2700,
+															text:function(){return "Double dorm more space (campus housing $"+this.cost+")";}
+														},{
+															requirements:function(){
+																return true;
+															},
+															cost:3300,
+															text:function(){return "2 bed / 1 bath apartment (campus housing $"+this.cost+")";}
+														},{
+															requirements:function(){
+																return true;
+															},
+															cost:3500,
+															text:function(){return "2 bed / 2 bath apartment (campus housing $"+this.cost+")";}
+														},{
+															requirements:function(){
+																return true;
+															},
+															cost:4500,
+															text:function(){return "1 bed / 1 bath apartment (campus housing $"+this.cost+")";}
+														},{
+															requirements:function(student){
+																if(student.parentDistance < 70)return true;
+																return false;
+															},
+															cost:0,
+															text:function(){return "Live at home! ( $"+this.cost+")";}
+														}],function(student, choice){
+															student.housing = choice;
+														}));
 	},
 	action: function(input){
 		//if(this.actionIn(this.scene, input))
