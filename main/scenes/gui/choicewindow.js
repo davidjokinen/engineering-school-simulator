@@ -1,20 +1,30 @@
 /*
- *   TextWindow.js
+ *   ChoiceWindow.js
  */
-var TextWindow = Scene.extend({
-	init: function (scene, title, text, renderAction ,action){
+var ChoiceWindow = Scene.extend({
+	init: function (scene, title, text, choices, action){
 		this.scene = scene;
 		this.title = title;
 		this.text = text;
-		this.renderAction = renderAction;
-		this.actionIn = action;
+		this.choices = choices;
+		this.returnAction = action;
+
 		
 	},
 	action: function(input){
-		if(this.actionIn(this.scene, input))
-			this.controller.returnScene();
-		else
-			this.start();
+		var count = 1;
+		for(var i =0;i<this.choices.length;i++){
+			if(this.choices[i].requirements(this.scene.student)){
+				if(input == count){
+					this.returnAction(this.scene.student,this.choices[i])
+					
+					return this.controller.returnScene();
+				}
+				count++;
+			}
+		}
+
+		this.start();
 	},
 	start: function (){
 		this.render();
@@ -36,7 +46,14 @@ var TextWindow = Scene.extend({
 		this.ctx.fillText(text,(this.ctx.width-w)/2+2,3);
 		text = this.text;
 		this.ctx.fillText(text,(this.ctx.width-w)/2+2,5);
-		this.renderAction(this.scene, this.ctx);
+		var count = 1;
+		for(var i =0;i<this.choices.length;i++){
+			if(this.choices[i].requirements(this.scene.student)){
+				this.ctx.fillText(count+") "+this.choices[i].text(),(this.ctx.width-w)/2+2,6+count);
+				count++;
+			}
+		}
+
 		this.ctx.drawScreen();
 	}
 })

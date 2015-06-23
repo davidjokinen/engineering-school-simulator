@@ -19,6 +19,7 @@ var AskQuestions = Scene.extend({
 			this.render();
 		else 
 			this.controller.returnScene();
+
 	},
 	render: function (){
 		var w = 40;
@@ -38,5 +39,6 @@ var AskQuestions = Scene.extend({
 		this.ctx.fillText(text,(this.ctx.width-w)/2+2,11);
 		var text = this.error;
 		this.ctx.fillText(text,(this.ctx.width-w)/2+2,13);
+		this.ctx.drawScreen();
 	}
 })

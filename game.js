@@ -26,6 +26,7 @@ include('./main/scenes/setup.js');
 include('./main/scenes/createstudent.js');
 include('./main/scenes/gui/textwindow.js');
 include('./main/scenes/gui/askquestions.js');
+include('./main/scenes/gui/choicewindow.js');
 include('./main/scenes/setuplife.js');
 include('./main/scenes/schooloverview.js');
 include('./main/scenes/speedsim.js');
